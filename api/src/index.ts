@@ -1,9 +1,12 @@
+import dotenv from 'dotenv';
 import Koa from 'koa';
 import { ApolloServer, gql } from 'apollo-server-koa';
 import { createConnection, Connection } from 'typeorm';
 import { User, checkPassword, hashPassword } from './entity/User';
 import MoviesAPI from './dataSources/MoviesAPI';
 import { generateToken, verifyToken } from './token';
+
+dotenv.config();
 
 const typeDefs = gql`
   type Movie {

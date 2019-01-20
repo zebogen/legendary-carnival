@@ -13,6 +13,9 @@ const SEARCH_MOVIES_QUERY = gql`
       results {
         id
         title
+        release_date
+        overview
+        poster_path
       }
     }
   }
@@ -25,13 +28,11 @@ const GET_MOVIE_SEARCH = gql`
 `;
 
 const Search: React.SFC<{}> = () => (
-  <>
-    <SearchBox />
-    <Query query={GET_MOVIE_SEARCH}>
-      {({ data: { movieSearch } }) => {        
-        if (!movieSearch.length) return null;
-
-        return (
+  <Query query={GET_MOVIE_SEARCH}>
+    {({ data: { movieSearch } }) => (
+      <>
+        <SearchBox initialSearch={movieSearch} />
+        {movieSearch.length > 0 && (
           <Query query={SEARCH_MOVIES_QUERY} variables={{ query: movieSearch }}>
             {({ loading, error, data }) => {
               if (loading) return 'Loading...';
@@ -49,10 +50,10 @@ const Search: React.SFC<{}> = () => (
               ); 
             }}
           </Query>
-        );
-      }}
-    </Query>
-  </>
+        )}
+      </>
+    )}
+  </Query>
 );
 
 export default Search;

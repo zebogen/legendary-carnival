@@ -2,12 +2,14 @@ import React, { RefObject } from 'react';
 
 interface SearchFormProps {
   id?: string;
+  initialSearch?: string;
   onSubmit: (searchString: string) => void;
 }
 
 class SearchForm extends React.PureComponent<SearchFormProps> {
   static defaultProps = {
     id: 'search-form',
+    initialSearch: '',
   };
 
   private inputRef: RefObject<HTMLInputElement> = React.createRef();
@@ -33,6 +35,7 @@ class SearchForm extends React.PureComponent<SearchFormProps> {
           Search Movies
         </label>
         <input
+          defaultValue={this.props.initialSearch}
           id={this.inputID}
           type="text"
           ref={this.inputRef}

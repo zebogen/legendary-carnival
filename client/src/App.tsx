@@ -2,25 +2,12 @@ import React, { Component } from 'react';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { Flex } from 'rebass';
 import { ApolloProvider } from 'react-apollo';
-import apolloClient from './apolloClient';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import createApolloClient from './createApolloClient';
 import Search from './components/Search';
+import theme from './theme';
 
-const theme = {
-  colors: {
-    black: '#222222',
-    dark1: '#001326',
-    dark2: '#131326',
-    dark3: '#001326',
-    blue1: '#3174b8',
-    blue2: '#044e7c',
-    darkBlue: '#000700',
-    iconBlue: '#00faea',
-  },
-  fonts: {
-    sans: 'system-ui, sans-serif',
-    mono: 'Menlo, monospace',
-  },
-};
+const client = createApolloClient();
 
 interface ThemedComponentProps {
   theme: {
@@ -31,7 +18,8 @@ interface ThemedComponentProps {
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: ${(props: ThemedComponentProps) => props.theme.colors.blue1};
+    background-color: ${(props: ThemedComponentProps) => props.theme.colors.light1};
+    margin: 0;
     
     font-family: system-ui, sans-serif;
   }
@@ -40,14 +28,23 @@ const GlobalStyle = createGlobalStyle`
 class App extends Component {
   render() {
     return (
-      <ApolloProvider client={apolloClient}>
+      <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
-          <>
-            <GlobalStyle />
-            <Flex alignItems="center" flexDirection="column">
-              <Search />
-            </Flex>
-          </>
+          <Router>
+            <>
+              <GlobalStyle />
+              <Route
+                path="/"
+                exact
+              >
+                {() => (
+                  <Flex alignItems="center" flexDirection="column">
+                    <Search />
+                  </Flex>
+                )}
+              </Route>
+            </>
+          </Router>
         </ThemeProvider>
       </ApolloProvider>
     );

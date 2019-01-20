@@ -11,12 +11,12 @@ const SET_MOVIE_SEARCH = gql`
   }
 `;
 
-const SearchBox: React.SFC<{}> = () => (
+const SearchBox: React.SFC<{ initialSearch?: string }> = ({ initialSearch }) => (
   <Mutation mutation={SET_MOVIE_SEARCH}>
     {(setMovieSearch => (
       <StyledBox
-        bg="blue2"
-        borderRadius={5}
+        bg="light3"
+        borderRadius={2}
         border="1px solid black"
         boxShadow="0 0 8px 8px rgba(0, 0, 0, .1)"
         my={5}
@@ -30,7 +30,10 @@ const SearchBox: React.SFC<{}> = () => (
         >
           FilmBFF
         </Heading>
-        <SearchForm onSubmit={search => setMovieSearch({ variables: { search } })} />
+        <SearchForm
+          initialSearch={initialSearch}
+          onSubmit={search => setMovieSearch({ variables: { search } })}
+        />
       </StyledBox>
     ))}
   </Mutation>

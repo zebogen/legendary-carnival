@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
-import { Card, Heading } from 'rebass';
+import { Card } from 'rebass';
 import { Mutation } from 'react-apollo';
+import Heading from '../Heading';
 import SearchForm from './Form';
 
 const SET_MOVIE_SEARCH = gql`
@@ -24,7 +25,6 @@ const SearchBox: React.SFC<{ initialSearch?: string }> = ({ initialSearch }) => 
         width={[1, 1/2]}
       >
         <Heading
-          color="darkBlue"
           fontSize={6}
           mb={3}
         >

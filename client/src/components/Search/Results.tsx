@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'rebass';
+import { Mutation } from 'react-apollo';
 import Text from '../Text';
 import tmdbImageUrl from '../../util/tmdbImageUrl';
+import gql from 'graphql-tag';
+
+const SET_MOVIE_SEARCH_PAGE = gql`
+  mutation SetMovieSearchPage($page: String) {
+    setMovieSearchPage(page: $page) @client
+  }
+`;
 
 type MovieSearchResult = {
   id: number;
@@ -54,6 +62,28 @@ const Results: React.SFC<ResultsProps> = ({
         </ResultsItem>
       ))}
     </ResultsList>
+    <Mutation mutation={SET_MOVIE_SEARCH_PAGE}>
+      {(setPage) => (
+        <Flex>
+          <Box>
+            <button
+              disabled={page <= 1}
+              onClick={() => setPage({ variables: { page: page - 1 } })}
+            >
+              Previous
+            </button>
+          </Box>
+          <Box>
+            <button
+              disabled={page >= totalPages}
+              onClick={() => setPage({ variables: { page: page + 1 } })}
+            >
+              Next
+            </button>
+          </Box>
+        </Flex>
+      )}
+    </Mutation>
   </ResultsWrapper>
 );
 

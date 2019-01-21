@@ -1,15 +1,5 @@
-import ApolloClient, { PresetConfig, NormalizedCacheObject } from 'apollo-boost';
-import gql from 'graphql-tag';
+import { NormalizedCacheObject } from 'apollo-boost';
 import { ApolloCache } from 'apollo-cache';
-
-function getInitialSearch() {
-  const params = new URLSearchParams(window.location.search);
-  return {
-    __typename: 'MovieSearch',
-    query: params.get('query') || '',
-    page: params.get('page') || 1,
-  };
-}
 
 interface MovieSearch {
   query?: string;
@@ -37,10 +27,6 @@ function updateClientURLParams(updateFunc: (params: URLSearchParams) => void) {
   }
 }
 
-const defaults = {
-  movieSearch: getInitialSearch(),
-};
-
 const resolvers = {
   Mutation: {
     setMovieSearch: (_: any, { search }: any, { cache }: any) => {
@@ -64,30 +50,4 @@ const resolvers = {
   },
 };
 
-const typeDefs = gql`
-  type MovieSearch {
-    page: Int
-    query: String
-  }
-
-  type Query {
-    movieSearch: MovieSearch
-  }
-
-  type Mutation {
-    setMovieSearch(search: String!): String
-    setMovieSearchPage(page: Int!): String
-  }
-`;
-
-export default function createApolloClient(options: PresetConfig = {}) {
-  return new ApolloClient({
-    uri: '/graphql',
-    clientState: {
-      defaults,
-      resolvers,
-      typeDefs,
-    },
-    ...options,
-  });
-}
+export default resolvers;

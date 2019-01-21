@@ -8,7 +8,7 @@ import tmdbImageUrl from '../../util/tmdbImageUrl';
 import Pagination from './Pagination';
 
 const SET_MOVIE_SEARCH_PAGE = gql`
-  mutation SetMovieSearchPage($page: String) {
+  mutation SetMovieSearchPage($page: Int) {
     setMovieSearchPage(page: $page) @client
   }
 `;

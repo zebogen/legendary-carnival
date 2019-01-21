@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import createApolloClient from './createApolloClient';
+import createClient from './graphql/createClient';
 import theme from './theme';
 import Layout from './Layout';
 import SignInPage from './pages/SignInPage';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
 
-const client = createApolloClient();
+const client = createClient();
 
 class App extends Component {
   render() {

@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import { Flex } from 'rebass';
+import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import createApolloClient from './createApolloClient';
-import Search from './components/Search';
 import theme from './theme';
+import Layout from './Layout';
+import SignInPage from './pages/SignInPage';
+import HomePage from './pages/HomePage';
+import SignUpPage from './pages/SignUpPage';
 
 const client = createApolloClient();
-
-interface ThemedComponentProps {
-  theme: {
-    colors: any;
-    fonts: any;
-  }
-}
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: ${(props: ThemedComponentProps) => props.theme.colors.light1};
-    margin: 0;    
-  }
-`;
 
 class App extends Component {
   render() {
@@ -29,19 +17,21 @@ class App extends Component {
       <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
           <Router>
-            <>
-              <GlobalStyle />
+            <Layout>
               <Route
                 path="/"
                 exact
-              >
-                {() => (
-                  <Flex alignItems="center" flexDirection="column">
-                    <Search />
-                  </Flex>
-                )}
-              </Route>
-            </>
+                render={() => <HomePage />}
+              />
+              <Route
+                path="/sign-in"
+                render={() => <SignInPage />}
+              />
+              <Route
+                path="/sign-up"
+                render={() => <SignUpPage />}
+              />
+            </Layout>
           </Router>
         </ThemeProvider>
       </ApolloProvider>

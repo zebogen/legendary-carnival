@@ -50,7 +50,7 @@ const typeDefs = gql`
   type Query {
     movie(tmdbId: ID): Movie
     movies: [Movie]
-    searchMovies(query: String): MovieSearchResults
+    searchMovies(query: String, page: Int): MovieSearchResults
     users: [User]
   }
 
@@ -83,6 +83,7 @@ interface FindMovieArgs {
 
 interface SearchMoviesArgs {
   query: string;
+  page?: number;
 }
 
 interface CreateUserArgs {
@@ -99,7 +100,7 @@ const resolvers = {
   Query: {
     users: (_source: any, _args: any, { connection }: ResolverContext) => connection.getRepository(User).find(),
     movie: async (_source: any, { tmdbId }: FindMovieArgs, { dataSources }: ResolverContext) => dataSources.moviesAPI.findMovie(tmdbId),
-    searchMovies: async (_source: any, { query }: SearchMoviesArgs, { dataSources }: ResolverContext) => dataSources.moviesAPI.searchMovies(query),
+    searchMovies: async (_source: any, { query, page }: SearchMoviesArgs, { dataSources }: ResolverContext) => dataSources.moviesAPI.searchMovies(query, page),
   },
   Mutation: {
     createUser: async (_source: any, { email, password }: CreateUserArgs, { connection }: ResolverContext) => {

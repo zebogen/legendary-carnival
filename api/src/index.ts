@@ -6,6 +6,15 @@ import MoviesAPI from './dataSources/MoviesAPI';
 import resolvers from './resolvers';
 import typeDefs from './graphqlSchema';
 
+interface ApolloKoaContext {
+  ctx: {
+    method: string;
+    url: string;
+    req: Request;
+    res: Response;
+  }  
+}
+
 dotenv.config();
 
 createConnection().then((connection) => {
@@ -17,8 +26,11 @@ createConnection().then((connection) => {
         moviesAPI: new MoviesAPI(),
       };
     },
-    context: {
-      connection,
+    context: ({ ctx: { req } }: ApolloKoaContext) => {
+      return {
+        connection,
+        req,
+      };
     },
     formatError: (error: any) => {
       console.log(error);

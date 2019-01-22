@@ -44,6 +44,7 @@ const schema = gql`
     movies: [Movie]
     searchMovies(query: String, page: Int): MovieSearchResults
     users: [User]
+    user: User
   }
 
   type Mutation {

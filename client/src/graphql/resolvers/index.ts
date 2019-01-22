@@ -1,5 +1,6 @@
-import { NormalizedCacheObject } from 'apollo-boost';
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloCache } from 'apollo-cache';
+import TokenStorage from '../../util/TokenStorage';
 
 interface MovieSearch {
   query?: string;
@@ -46,6 +47,18 @@ const resolvers = {
       updateClientURLParams(params => params.set('page', page));
       
       return data;
+    },
+    setSessionToken: (_: any, { token }: any, { cache }: any) => {
+      TokenStorage.set(token);
+
+      return cache.writeData({
+        data: {
+          session: {
+            __typename: 'Session',
+            token,
+          },
+        },
+      })
     },
   },
 };

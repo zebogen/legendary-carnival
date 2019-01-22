@@ -6,13 +6,19 @@ const schema = gql`
     query: String
   }
 
+  type Session {
+    token: String
+  }
+
   type Query {
     movieSearch: MovieSearch
+    session: Session
   }
 
   type Mutation {
     setMovieSearch(search: String!): String
     setMovieSearchPage(page: Int!): String
+    setSessionToken(token: String!): String
   }
 `;
 

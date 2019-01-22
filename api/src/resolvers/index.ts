@@ -2,6 +2,7 @@ import { Connection } from 'typeorm';
 import { User, checkPassword, hashPassword } from '../entity/User';
 import { generateToken, verifyToken } from '../token';
 import MoviesAPI from '../dataSources/MoviesAPI';
+import { AuthorizationError } from '../errors';
 
 interface DataSources {
   moviesAPI: MoviesAPI
@@ -10,6 +11,11 @@ interface DataSources {
 interface ResolverContext {
   connection: Connection;
   dataSources: DataSources;
+  req: {
+    headers: {
+      authorization?: string;
+    }
+  };
 }
 
 interface FindMovieArgs {
@@ -36,6 +42,14 @@ const resolvers = {
     users: (_source: any, _args: any, { connection }: ResolverContext) => connection.getRepository(User).find(),
     movie: async (_source: any, { tmdbId }: FindMovieArgs, { dataSources }: ResolverContext) => dataSources.moviesAPI.findMovie(tmdbId),
     searchMovies: async (_source: any, { query, page }: SearchMoviesArgs, { dataSources }: ResolverContext) => dataSources.moviesAPI.searchMovies(query, page),
+    user: async (_source: any, _args: any, { connection, req }: ResolverContext) => {
+      const token = req.headers.authorization;
+      if (!token) throw new AuthorizationError('No Authorization header included with the request');
+      const { id } = await verifyToken(token);
+      const user = await connection.getRepository(User).findOne({ id });
+      if (!user) throw new AuthorizationError('Authorization header is invalid');
+      return user;
+    },
   },
   Mutation: {
     createUser: async (_source: any, { email, password }: CreateUserArgs, { connection }: ResolverContext) => {

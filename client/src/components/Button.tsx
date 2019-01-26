@@ -6,7 +6,7 @@ const StyledRButton = styled(RButton)`
   font-family: ${props => props.theme.fonts.sans};
 
   &:hover {
-    background-color: ${props => props.theme.colors.dark2};
+    background-color: ${props => props.theme.colors.dark3};
   }
 `;
 

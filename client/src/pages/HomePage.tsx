@@ -31,15 +31,18 @@ const HomePage: React.SFC<{}> = () => (
         if (data.session.token) {
           return (
             <Query query={GET_USER}>
-              {({ data: userData, loading: userLoading, error: userError }) => (
-                userLoading
-                  ? <span>Loading</span>
-                  : (
+              {({ data: userData, loading: userLoading, error: userError }) => {
+                if (userLoading) return <span>Loading</span>;
+                if (userError) return <Redirect to="/sign-in" />;
+                if (userData) {
+                  return ( 
                     <h1>
                       Welcome back, {userData.user.email}!
                     </h1>
-                  )
-              )}
+                  );
+                }
+                return null;
+              }}
             </Query>
           )
         } else {

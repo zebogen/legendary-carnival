@@ -1,4 +1,9 @@
 import React, { RefObject } from 'react';
+import Label from '../Label';
+import Input from '../Input';
+import Button from '../Button';
+import styled from 'styled-components';
+import { Flex } from 'rebass';
 
 interface SearchFormProps {
   id?: string;
@@ -31,19 +36,31 @@ class SearchForm extends React.PureComponent<SearchFormProps> {
   public render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.inputID}>
+        <Label
+          fontSize={3}
+          htmlFor={this.inputID}
+        >
           Search Movies
-        </label>
-        <input
-          defaultValue={this.props.initialSearch}
-          id={this.inputID}
-          type="text"
-          ref={this.inputRef}
-        />
-        <button type="submit">Search</button>
+        </Label>
+        <SearchBar mt={2}>
+          <Input
+            defaultValue={this.props.initialSearch}
+            id={this.inputID}
+            name="search"
+            type="text"
+            ref={this.inputRef}
+          />
+          <Button ml={2} type="submit">Search</Button>
+        </SearchBar>
       </form>
     )
   }
 }
+
+const SearchBar = styled(Flex)`
+  input {
+    flex-grow: 1;
+  }
+`;
 
 export default SearchForm;

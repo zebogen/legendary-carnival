@@ -8,6 +8,8 @@ import withApollo from '../../hoc/withApollo';
 import TokenStorage from '../../util/TokenStorage';
 import Button from '../Button';
 import styled from 'styled-components';
+import Label from '../Label';
+import Input from '../Input';
 
 const CREATE_SESSION = gql`
   mutation CreateSession($email: String!, $password: String!) {
@@ -38,14 +40,15 @@ class SignInForm extends Component<{ client: ApolloClient }, {}> {
           })
         }}
       >
-        {(createSession, { data, loading }) => {
-          if (data && data.createSession.token) {
+        {(createSession, { data, loading, called }) => {
+          if (called && !loading && data.createSession.token) {
             return <Redirect to="/" />;
           }
 
           return (
             <Box mb={3}>
-              <form onSubmit={(e) => {
+              <form
+                onSubmit={(e) => {
                   e.preventDefault();
 
                   if (this.emailRef.current && this.passwordRef.current) {
@@ -56,19 +59,31 @@ class SignInForm extends Component<{ client: ApolloClient }, {}> {
                       },
                     });
                   }
-                }
-              }>
+                }}
+              >
                 <Box mb={2}>
                   <Label htmlFor="email">
                     Email 
                   </Label>
-                  <Input type="email" placeholder="Your email address" ref={this.emailRef} />
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Your email address"
+                    ref={this.emailRef}
+                  />
                 </Box>
                 <Box mb={2}>
                   <Label htmlFor="password">
                     Password
                   </Label>
-                  <Input type="password" placeholder="Your password" ref={this.passwordRef} />
+                  <Input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Your password"
+                    ref={this.passwordRef}
+                  />
                 </Box>
                 <ButtonContainer>
                   {loading && <p>Signing in...</p>}
@@ -82,19 +97,6 @@ class SignInForm extends Component<{ client: ApolloClient }, {}> {
     );
   }
 }
-
-const Label = styled.label`
-  display: block;
-  font-family: ${props => props.theme.fonts.sans};
-  font-weight: bold;
-  margin-bottom: 4px;
-`;
-
-const Input = styled.input`
-  font-family: ${props => props.theme.fonts.sans};
-  padding: 8px;
-  font-size: 16px;
-`;
 
 const ButtonContainer = styled(Box)`
   text-align: center;

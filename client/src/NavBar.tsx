@@ -91,7 +91,7 @@ const NavLinkText = withProps(StyledNavLink, { color: 'white', p: 3 });
 const NavLinkButton = styled('button')`
   ${navLinkStyle}
   appearance: none;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: transparent;
   border-radius: 0;
   border: none;
 `

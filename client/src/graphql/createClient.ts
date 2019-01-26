@@ -12,7 +12,7 @@ export function getInitialSearch() {
   return {
     __typename: 'MovieSearch',
     query: params.get('query') || '',
-    page: params.get('page') || '1',
+    page: parseInt(params.get('page') || '1', 10),
   };
 }
 

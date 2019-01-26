@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Card } from 'rebass';
 import { Mutation } from 'react-apollo';
 import Heading from '../Heading';
-import SearchForm from './Form';
+import SearchForm from './SearchForm';
 
 const SET_MOVIE_SEARCH = gql`
   mutation SetMovieSearch($search: String!) {
@@ -15,7 +15,7 @@ const SET_MOVIE_SEARCH = gql`
 const SearchBox: React.SFC<{ initialSearch?: string }> = ({ initialSearch }) => (
   <Mutation mutation={SET_MOVIE_SEARCH}>
     {(setMovieSearch => (
-      <StyledBox
+      <Card
         bg="light3"
         borderRadius={2}
         border="1px solid black"
@@ -26,7 +26,8 @@ const SearchBox: React.SFC<{ initialSearch?: string }> = ({ initialSearch }) => 
       >
         <Heading
           fontSize={6}
-          mb={3}
+          mb={4}
+          textAlign="center"
         >
           FilmBFF
         </Heading>
@@ -34,14 +35,9 @@ const SearchBox: React.SFC<{ initialSearch?: string }> = ({ initialSearch }) => 
           initialSearch={initialSearch}
           onSubmit={search => setMovieSearch({ variables: { search } })}
         />
-      </StyledBox>
+      </Card>
     ))}
   </Mutation>
 );
-
-
-const StyledBox = styled(Card)`
-  text-align: center;
-`
 
 export default SearchBox;

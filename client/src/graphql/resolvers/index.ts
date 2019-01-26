@@ -1,6 +1,7 @@
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloCache } from 'apollo-cache';
 import TokenStorage from '../../util/TokenStorage';
+import { getInitialSession } from '../createClient';
 
 interface MovieSearch {
   query?: string;
@@ -60,6 +61,15 @@ const resolvers = {
         },
       })
     },
+    logOut: (_: any, _args: any, { cache }: any) => {
+      TokenStorage.clear();
+
+      return cache.writeData({
+        data: {
+          session: getInitialSession(),
+        },
+      });
+    }
   },
 };
 

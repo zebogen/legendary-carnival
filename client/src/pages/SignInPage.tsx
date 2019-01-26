@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const SignInPage: React.SFC<{}> = () => (
   <Flex alignItems="center" flexDirection="column">
-    <Heading>Sign In</Heading>
+    <Heading fontSize={5} my={3}>Sign In</Heading>
     <SignInForm />
     <Text>
       Need an account? <Link to="/sign-up">Sign up here.</Link>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Flex } from 'rebass';
 import { Query } from 'react-apollo';
+import { Redirect } from 'react-router-dom';
 import Search from '../components/Search';
 import gql from 'graphql-tag';
 
@@ -31,12 +32,18 @@ const HomePage: React.SFC<{}> = () => (
           return (
             <Query query={GET_USER}>
               {({ data: userData, loading: userLoading, error: userError }) => (
-                <div>
-                  foo
-                </div>
+                userLoading
+                  ? <span>Loading</span>
+                  : (
+                    <h1>
+                      Welcome back, {userData.user.email}!
+                    </h1>
+                  )
               )}
             </Query>
           )
+        } else {
+          return <Redirect to="/sign-in" />
         }
       }}
     </Query>

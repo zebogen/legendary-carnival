@@ -13,7 +13,7 @@ const theme = {
     iconBlue: '#00faea',
   },
   fonts: {
-    sans: 'system-ui, sans-serif',
+    sans: 'Roboto, sans-serif',
     mono: 'Menlo, monospace',
   },
 };

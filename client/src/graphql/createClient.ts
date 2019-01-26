@@ -7,7 +7,7 @@ import resolvers from './resolvers';
 import typeDefs from './schema';
 import TokenStorage from '../util/TokenStorage';
 
-function getInitialSearch() {
+export function getInitialSearch() {
   const params = new URLSearchParams(window.location.search);
   return {
     __typename: 'MovieSearch',
@@ -16,7 +16,7 @@ function getInitialSearch() {
   };
 }
 
-function getInitialSession() {
+export function getInitialSession() {
   const token = TokenStorage.get() || '';
 
   return {

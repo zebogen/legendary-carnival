@@ -12,4 +12,10 @@ export default class TokenStorage {
       window.localStorage.setItem(TokenStorage.TOKEN_LOCAL_STORAGE_KEY, value);
     }
   }
+
+  public static clear(): void {
+    if (window.localStorage) {
+      window.localStorage.removeItem(TokenStorage.TOKEN_LOCAL_STORAGE_KEY);
+    }
+  }
 }
